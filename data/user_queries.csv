@@ -1,0 +1,5 @@
+timestamp,user_query,response_type,user_rating
+2024-01-01 10:00,Show me Himalayan data,EO Data,5
+2024-01-01 11:30,What satellites are active?,Satellite Info,4
+2024-01-02 09:15,Environmental parameters,Environmental,4
+2024-01-02 14:20,Land cover changes,Analysis,5

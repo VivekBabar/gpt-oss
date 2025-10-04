@@ -1,0 +1,44 @@
+{
+  "eo_datasets": [
+    {
+      "image_id": "eo_001",
+      "file_name": "eo1.jpg",
+      "location": "Himalayan Region",
+      "land_cover": "Snow cover and mountainous terrain",
+      "description": "Satellite image showing snow cover in Himalayan mountains with visible ridge lines",
+      "analysis": "Snow cover analysis shows healthy accumulation with minimal melting"
+    },
+    {
+      "image_id": "eo_002", 
+      "file_name": "eo2.jpg",
+      "location": "Ganga Plains",
+      "land_cover": "Agricultural fields",
+      "description": "Agricultural land showing crop patterns and irrigation channels",
+      "analysis": "Active agricultural area with visible crop growth patterns"
+    },
+    {
+      "image_id": "eo_003",
+      "file_name": "eo3.jpg",
+      "location": "Thar Desert",
+      "land_cover": "Arid desert",
+      "description": "Desert landscape showing sand dunes and sparse vegetation",
+      "analysis": "Arid region with minimal vegetation cover and visible dune patterns"
+    },
+    {
+      "image_id": "eo_004",
+      "file_name": "eo4.jpg",
+      "location": "Western Ghats",
+      "land_cover": "Tropical forest",
+      "description": "Dense forest cover in Western Ghats with visible canopy",
+      "analysis": "Healthy forest cover with dense vegetation and minimal deforestation"
+    },
+    {
+      "image_id": "eo_005",
+      "file_name": "eo5.jpg",
+      "location": "Coastal Area",
+      "land_cover": "Coastal and marine",
+      "description": "Coastal region showing shoreline, ocean and coastal vegetation",
+      "analysis": "Stable coastline with visible coastal ecosystems"
+    }
+  ]
+}

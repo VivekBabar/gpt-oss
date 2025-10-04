@@ -1,0 +1,9 @@
+PLACEHOLDER IMAGE DATA
+====================
+File: image5.jpg
+Description: AGRICULTURE: Crop fields, farming patterns, green vegetation, rural landscape
+Type: RGB Image
+Resolution: 224x224 pixels
+Format: JPEG
+Size: ~150KB
+====================

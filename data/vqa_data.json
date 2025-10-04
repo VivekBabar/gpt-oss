@@ -1,0 +1,29 @@
+{
+  "questions": [
+    {
+      "image_id": 1,
+      "question": "What is the main feature in this image?",
+      "answer": "snow covered mountains"
+    },
+    {
+      "image_id": 2,
+      "question": "What type of area is shown?",
+      "answer": "urban city"
+    },
+    {
+      "image_id": 3,
+      "question": "What bodies of water are visible?",
+      "answer": "ocean"
+    },
+    {
+      "image_id": 4,
+      "question": "What is the vegetation type?",
+      "answer": "dense forest"
+    },
+    {
+      "image_id": 5,
+      "question": "What land use is shown?",
+      "answer": "agricultural fields"
+    }
+  ]
+}

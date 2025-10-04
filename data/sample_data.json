@@ -1,0 +1,51 @@
+{
+  "images": [
+    {
+      "id": 1,
+      "file_name": "image1.jpg",
+      "caption": "A beautiful mountain landscape with snow peaks"
+    },
+    {
+      "id": 2,
+      "file_name": "image2.jpg",
+      "caption": "Urban cityscape with modern skyscrapers"
+    },
+    {
+      "id": 3,
+      "file_name": "image3.jpg",
+      "caption": "Tropical beach with palm trees and blue ocean"
+    },
+    {
+      "id": 4,
+      "file_name": "image4.jpg",
+      "caption": "Dense forest with tall trees and sunlight"
+    },
+    {
+      "id": 5,
+      "file_name": "image5.jpg",
+      "caption": "Agricultural fields with crops growing"
+    }
+  ],
+  "annotations": [
+    {
+      "image_id": 1,
+      "caption": "A beautiful mountain landscape with snow peaks"
+    },
+    {
+      "image_id": 2,
+      "caption": "Urban cityscape with modern skyscrapers"
+    },
+    {
+      "image_id": 3,
+      "caption": "Tropical beach with palm trees and blue ocean"
+    },
+    {
+      "image_id": 4,
+      "caption": "Dense forest with tall trees and sunlight"
+    },
+    {
+      "image_id": 5,
+      "caption": "Agricultural fields with crops growing"
+    }
+  ]
+}

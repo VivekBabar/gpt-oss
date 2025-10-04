@@ -1,0 +1,9 @@
+PLACEHOLDER IMAGE DATA
+====================
+File: image4.jpg
+Description: FOREST: Dense trees, green foliage, sunlight, canopy, natural vegetation
+Type: RGB Image
+Resolution: 224x224 pixels
+Format: JPEG
+Size: ~150KB
+====================

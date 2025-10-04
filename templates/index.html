@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT-OSS Multimodal Chatbot</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #2c3e50, #34495e); color: white; padding: 30px; text-align: center; }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .chat-container { display: flex; height: 70vh; }
+        .sidebar { width: 300px; background: #f8f9fa; border-right: 1px solid #e9ecef; padding: 20px; overflow-y: auto; }
+        .chat-area { flex: 1; display: flex; flex-direction: column; }
+        .messages { flex: 1; padding: 20px; overflow-y: auto; background: #fff; }
+        .message { margin-bottom: 20px; padding: 15px; border-radius: 10px; max-width: 80%; }
+        .user-message { background: #007bff; color: white; margin-left: auto; }
+        .assistant-message { background: #e9ecef; color: #333; margin-right: auto; }
+        .message-header { font-weight: bold; margin-bottom: 5px; font-size: 0.9em; opacity: 0.8; }
+        .input-area { padding: 20px; background: #f8f9fa; border-top: 1px solid #e9ecef; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 10px; }
+        input[type="text"] { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
+        button { padding: 12px 24px; background: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #0056b3; }
+        .file-input { display: none; }
+        .file-label { padding: 12px 20px; background: #28a745; color: white; border-radius: 8px; cursor: pointer; display: inline-block; }
+        .file-label:hover { background: #218838; }
+        .csv-toggle { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #007bff; }
+        input:checked + .slider:before { transform: translateX(26px); }
+        .csv-info { background: #e7f3ff; border: 1px solid #b3d9ff; border-radius: 8px; padding: 10px; margin-top: 10px; font-size: 0.9em; }
+        .image-preview { max-width: 200px; max-height: 150px; margin-top: 10px; border-radius: 8px; }
+        .reload-btn { background: #6c757d; margin-left: 10px; }
+        .reload-btn:hover { background: #545b62; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌌 GPT-OSS Chatbot</h1>
+            <p>AI with Vision & CSV Data Analysis</p>
+        </div>
+        
+        <div class="chat-container">
+            <div class="sidebar">
+                <h3>📊 Data Files 
+                    <button class="reload-btn" onclick="reloadCSV()" title="Reload CSV files">🔄</button>
+                </h3>
+                <div id="csv-info">Loading...</div>
+                
+                <h3 style="margin-top: 20px;">🔍 Search Data</h3>
+                <input type="text" id="search-csv" placeholder="Search CSV data..." style="width: 100%; margin-bottom: 10px;">
+                <div id="search-results"></div>
+            </div>
+            
+            <div class="chat-area">
+                <div class="messages" id="messages">
+                    <div class="message assistant-message">
+                        <div class="message-header">GPT-OSS Assistant</div>
+                        Welcome! I can help you with:<br>
+                        • Image analysis<br>
+                        • CSV data queries<br>
+                        • Earth Observation data<br>
+                        • General questions<br><br>
+                        Upload images or ask about your data!
+                    </div>
+                </div>
+                
+                <div class="input-area">
+                    <div class="csv-toggle">
+                        <label class="switch">
+                            <input type="checkbox" id="use-csv">
+                            <span class="slider"></span>
+                        </label>
+                        <span>Use CSV Data</span>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="text" id="message-input" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+                        <input type="file" id="image-input" class="file-input" accept="image/*">
+                        <label for="image-input" class="file-label">📷 Image</label>
+                        <button onclick="sendMessage()">Send</button>
+                    </div>
+                    
+                    <div id="image-preview"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentImage = null;
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') sendMessage();
+        }
+        
+        function sendMessage() {
+            const messageInput = document.getElementById('message-input');
+            const message = messageInput.value.trim();
+            const useCSV = document.getElementById('use-csv').checked;
+            
+            if (!message && !currentImage) {
+                alert('Please enter a message or select an image');
+                return;
+            }
+            
+            const formData = new FormData();
+            if (message) formData.append('message', message);
+            if (currentImage) formData.append('image', currentImage);
+            formData.append('use_csv', useCSV);
+            
+            addMessage('user', message, currentImage ? URL.createObjectURL(currentImage) : null);
+            messageInput.value = '';
+            clearImagePreview();
+            
+            addMessage('assistant', 'Thinking...', null, false, true);
+            
+            fetch('/chat', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                removeLastMessage();
+                if (data.success) {
+                    addMessage('assistant', data.response, null, data.csv_used);
+                    loadCSVInfo();
+                } else {
+                    addMessage('assistant', 'Error: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                removeLastMessage();
+                addMessage('assistant', 'Error: ' + error.message);
+            });
+        }
+        
+        function addMessage(role, content, imageUrl = null, csvUsed = false, isTemp = false) {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}-message`;
+            if (isTemp) messageDiv.id = 'temp-message';
+            
+            let header = role === 'user' ? 'You' : 'GPT-OSS Assistant';
+            if (csvUsed) header += ' 📊';
+            
+            let contentHTML = `<div class="message-header">${header}</div><div>${content}</div>`;
+            if (imageUrl) contentHTML += `<img src="${imageUrl}" class="image-preview" alt="Uploaded image">`;
+            
+            messageDiv.innerHTML = contentHTML;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        
+        function removeLastMessage() {
+            const tempMessage = document.getElementById('temp-message');
+            if (tempMessage) tempMessage.remove();
+        }
+        
+        function clearImagePreview() {
+            document.getElementById('image-preview').innerHTML = '';
+            currentImage = null;
+        }
+        
+        function loadCSVInfo() {
+            fetch('/csv_data')
+                .then(response => response.json())
+                .then(data => {
+                    const csvInfoDiv = document.getElementById('csv-info');
+                    if (data.csv_files && data.csv_files.length > 0) {
+                        let html = '';
+                        data.csv_files.forEach(file => {
+                            html += `<div class="csv-info">
+                                <strong>${file.filename}</strong><br>
+                                Columns: ${file.columns.join(', ')}<br>
+                                Rows: ${file.total_rows}
+                            </div>`;
+                        });
+                        csvInfoDiv.innerHTML = html;
+                    } else {
+                        csvInfoDiv.innerHTML = '<div class="csv-info">No CSV files found in data folder</div>';
+                    }
+                });
+        }
+        
+        function reloadCSV() {
+            fetch('/reload_csv', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('✅ ' + data.message);
+                        loadCSVInfo();
+                    } else {
+                        alert('❌ Error: ' + data.error);
+                    }
+                });
+        }
+        
+        // Event listeners
+        document.getElementById('image-input').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                currentImage = file;
+                const preview = document.getElementById('image-preview');
+                preview.innerHTML = `<img src="${URL.createObjectURL(file)}" class="image-preview" alt="Image preview">`;
+            }
+        });
+        
+        document.getElementById('search-csv').addEventListener('input', function(event) {
+            const query = event.target.value;
+            if (query.length > 2) {
+                fetch(`/search_csv?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const resultsDiv = document.getElementById('search-results');
+                        if (data.results.length > 0) {
+                            let html = '<div class="csv-info">';
+                            data.results.slice(0, 3).forEach(result => {
+                                html += `<strong>${result.file}</strong>: ${JSON.stringify(result.data)}<br>`;
+                            });
+                            html += '</div>';
+                            resultsDiv.innerHTML = html;
+                        } else {
+                            resultsDiv.innerHTML = '<div class="csv-info">No results found</div>';
+                        }
+                    });
+            } else {
+                document.getElementById('search-results').innerHTML = '';
+            }
+        });
+        
+        // Load initial CSV info
+        loadCSVInfo();
+    </script>
+</body>
+</html>

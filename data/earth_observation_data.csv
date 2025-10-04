@@ -1,0 +1,6 @@
+location,land_cover,area_km2,vegetation_density,change_detected
+Himalayas,Snow/Mountains,500000,Low,Stable
+Ganga Plains,Agriculture,300000,High,Urban Growth
+Thar Desert,Desert,200000,Very Low,Desertification
+Western Ghats,Forest,160000,Very High,Deforestation
+Coastal Area,Coastal,75000,Medium,Coastal Erosion

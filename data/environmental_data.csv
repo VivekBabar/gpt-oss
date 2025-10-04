@@ -1,0 +1,6 @@
+parameter,unit,min_value,max_value,average
+Temperature,°C,-10.0,45.0,25.0
+Humidity,%,20.0,95.0,65.0
+Rainfall,mm,0.0,500.0,120.0
+Wind Speed,m/s,0.0,25.0,5.0
+Vegetation Index,NDVI,0.1,0.9,0.6

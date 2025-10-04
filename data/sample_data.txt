@@ -1,0 +1,5 @@
+image1.jpg|A majestic mountain range with snow-covered peaks under clear blue sky
+image2.jpg|Modern urban cityscape with skyscrapers, roads and vehicles
+image3.jpg|Tropical beach with white sand, palm trees and turquoise ocean
+image4.jpg|Dense green forest with sunlight creating patterns on the ground
+image5.jpg|Agricultural fields with crops growing in organized patterns

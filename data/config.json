@@ -1,0 +1,25 @@
+{
+  "dataset_info": {
+    "name": "GPT-OSS Multimodal Training Data",
+    "version": "1.0",
+    "description": "Sample dataset for training multimodal GPT-OSS model",
+    "total_samples": 20,
+    "modalities": ["image", "text"],
+    "tasks": ["captioning", "vqa", "classification"]
+  },
+  "preprocessing": {
+    "image_size": [224, 224],
+    "text_max_length": 512,
+    "augmentation": true
+  },
+  "categories": [
+    "landscape",
+    "urban", 
+    "beach",
+    "forest",
+    "agriculture",
+    "desert",
+    "river",
+    "residential"
+  ]
+}

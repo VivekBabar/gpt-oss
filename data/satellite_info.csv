@@ -1,0 +1,6 @@
+satellite_name,mission_type,resolution_m,launch_year,status
+Cartosat-3,High Resolution Imaging,0.25,2019,Active
+Resourcesat-3,Resource Monitoring,5.8,2022,Active
+RISAT-2B,Radar Imaging,1.0,2019,Active
+GISAT-1,Geospatial,50.0,2022,Active
+Oceansat-3,Ocean Monitoring,360.0,2022,Active
